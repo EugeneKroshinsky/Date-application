@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Main page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        a {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 4px;
+            margin: 10px;
+            transition: background-color 0.3s ease;
+        }
+
+        a:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Hello, this is my date application!</h1>
+    <a href="/dateIdea/new">Новая идея для свидания</a>
+    <a href="/dateIdea/find">Найти место для свидания</a>
+</div>
+
+<script>
+    // Добавляем эффект мерцания для ссылок при наведении
+    const links = document.querySelectorAll('a');
+    links.forEach(link => {
+        link.addEventListener('mouseover', () => {
+            link.style.backgroundColor = '#45a049';
+        });
+        link.addEventListener('mouseout', () => {
+            link.style.backgroundColor = '#4CAF50';
+        });
+    });
+</script>
+</body>
+</html>

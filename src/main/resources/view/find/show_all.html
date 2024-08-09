@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Результаты поиска</title>
+</head>
+<body>
+<p> Результаты поиска </p>
+<a href="/dateIdea/find"> Назад </a>
+
+<div th:each="idea : ${dateIdeas}">
+    <a th:href="@{/dateIdea/{id}(id = ${idea.getId()})}" th:text="${idea.getName() + ', ' + idea.getAddress()}"> User </a>
+</div>
+</body>
+</html>

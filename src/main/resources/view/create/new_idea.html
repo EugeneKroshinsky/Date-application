@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Добавить новое место</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            padding: 20px;
+        }
+
+        form {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        input[type="text"] {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            width: 100%;
+            margin-bottom: 10px;
+        }
+
+        input[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            float: right;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        select {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            width: 100%;
+            margin-bottom: 10px;
+        }
+
+        .location-inputs {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+
+        .location-inputs > div {
+            flex-basis: 48%;
+        }
+
+        .budget-inputs {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+
+        .budget-inputs > div {
+            display: flex;
+            align-items: center;
+        }
+
+        .budget-inputs > div > input {
+            width: auto;
+            margin: 0 5px;
+        }
+
+        .error {
+            color: red;
+            font-weight: bold;
+        }
+
+        p {
+            font-family: Arial, sans-serif;
+            font-weight: bold;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        #preview {
+            max-width: 200px;
+            max-height: 200px;
+            display: block;
+            margin-top: 10px;
+        }
+
+        a {
+            text-decoration: none;
+            color: #4CAF50;
+            font-weight: bold;
+        }
+
+        a:hover {
+            color: #45a049;
+        }
+    </style>
+</head>
+<body>
+<form th:method="POST" th:action="@{/dateIdea/new}" th:object="${dateIdea}">
+    <p>Общая информация</p>
+    <label for="name">Название места</label>
+    <input type="text" th:field="*{name}" id="name">
+    <div class="error" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name error</div>
+    <br>
+
+    <div>
+        <label for="type">Тип</label>
+        <select th:field="*{type}" id="type" name="type">
+            <option value="">Выберите</option>
+            <option th:each="type : ${types}" th:value="${type.id}" th:text="${type.name}"></option>
+        </select>
+        <div class="error" th:if="${#fields.hasErrors('type')}" th:errors="*{type}">Type error</div>
+    </div>
+    <br>
+    <hr>
+
+    <p>Местоположение</p>
+    <div class="location-inputs">
+        <div>
+            <label for="country">Страна</label>
+            <select th:field="*{country}" id="country" name="country">
+                <option value="">Выберите</option>
+                <option th:each="country : ${countries}" th:value="${country.id}" th:text="${country.name}"></option>
+            </select>
+            <div class="error" th:if="${#fields.hasErrors('country')}" th:errors="*{country}">Country error</div>
+        </div>
+        <div>
+            <label for="region">Регион</label>
+            <select id="region" name="region" disabled>
+                <option value="">Выберите регион</option>
+            </select>
+        </div>
+        <div>
+            <label for="city">Город</label>
+            <select id="city" name="city" disabled>
+                <option value="">Выберите город</option>
+            </select>
+        </div>
+        <div>
+            <label for="address">Адрес</label>
+            <input type="text" th:field="*{address}" id="address">
+            <div class="error" th:if="${#fields.hasErrors('address')}" th:errors="*{address}">Address error</div>
+        </div>
+    </div>
+    <br>
+    <hr>
+
+    <p>Бюджет</p>
+    <div class="budget-inputs">
+        <div>
+            <span>От</span>
+            <input type="text" th:field="*{minPrice}" id="minPrice">
+            <span>$</span>
+            <div class="error" th:if="${#fields.hasErrors('minPrice')}" th:errors="*{minPrice}">Min price error</div>
+        </div>
+        <div>
+            <span>До</span>
+            <input type="text" th:field="*{maxPrice}" id="maxPrice">
+            <span>$</span>
+            <div class="error" th:if="${#fields.hasErrors('maxPrice')}" th:errors="*{maxPrice}">Max price error</div>
+        </div>
+    </div>
+    <br>
+    <hr>
+
+    <p>Добавьте фото</p>
+    <br>
+    <input type="file" id="file" onchange="previewImage(event)">
+    <img id="preview">
+    <br>
+    <hr>
+
+    <p>Описание</p>
+    <br>
+    <input type="text" th:field="*{description}" id="description">
+    <div class="error" th:if="${#fields.hasErrors('description')}" th:errors="*{description}">Description error</div>
+    <br>
+
+    <div class="button-container">
+        <a th:href="@{/dateIdea}" class="back-button">Назад</a>
+        <input type="submit" value="Create">
+    </div>
+</form>
+<script>
+    function previewImage(event) {
+        var reader = new FileReader();
+        reader.onload = function() {
+            var preview = document.getElementById('preview');
+            preview.src = reader.result;
+        }
+        reader.readAsDataURL(event.target.files[0]);
+    }
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+    const countrySelect = document.getElementById('country');
+    const regionSelect = document.getElementById('region');
+    const citySelect = document.getElementById('city');
+
+    countrySelect.addEventListener('change', function() {
+        const countryId = this.value;
+        if (countryId) {
+            fetchRegions(countryId);
+            regionSelect.disabled = false;
+            citySelect.disabled = true;
+            citySelect.innerHTML = '<option value="">Выберите город</option>';
+        } else {
+            regionSelect.disabled = true;
+            citySelect.disabled = true;
+            regionSelect.innerHTML = '<option value="">Выберите регион</option>';
+            citySelect.innerHTML = '<option value="">Выберите город</option>';
+        }
+    });
+
+    regionSelect.addEventListener('change', function() {
+        const regionId = this.value;
+        if (regionId) {
+            fetchCities(regionId);
+            citySelect.disabled = false;
+        } else {
+            citySelect.disabled = true;
+            citySelect.innerHTML = '<option value="">Выберите город</option>';
+        }
+    });
+
+    function fetchRegions(countryId) {
+        fetch(`/api/regions?countryId=${countryId}`)
+            .then(response => response.json())
+            .then(regions => {
+                regionSelect.innerHTML = '<option value="">Выберите регион</option>';
+                regions.forEach(region => {
+                    const option = document.createElement('option');
+                    option.value = region.id;
+                    option.textContent = region.name;
+                    regionSelect.appendChild(option);
+                });
+            })
+            .catch(error => console.error('Error fetching regions:', error));
+    }
+
+    function fetchCities(regionId) {
+        fetch(`/api/cities?regionId=${regionId}`)
+            .then(response => response.json())
+            .then(cities => {
+                citySelect.innerHTML = '<option value="">Выберите город</option>';
+                cities.forEach(city => {
+                    const option = document.createElement('option');
+                    option.value = city.id;
+                    option.textContent = city.name;
+                    citySelect.appendChild(option);
+                });
+            })
+            .catch(error => console.error('Error fetching cities:', error));
+    }
+});
+</script>
+
+</body>
+</html>

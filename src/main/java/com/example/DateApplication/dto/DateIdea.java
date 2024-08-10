@@ -25,11 +25,11 @@ public class DateIdea {
     @Size(min=2, max=60, message = "Name should be between 2 and 60 characters")
     private String name;
 
-    @NotEmpty
+    @NotEmpty(message = "country can't be empty")
     private String country;
-    @NotEmpty
+    @NotEmpty(message = "region can't be empty")
     private String region;
-    @NotEmpty
+    @NotEmpty(message = "city can't be empty")
     private String city;
 
     @Size(min=2, max=60, message = "address should be between 2 and 60 characters")

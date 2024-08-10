@@ -126,26 +126,21 @@
         <div>
             <label for="country">Страна</label>
             <select th:field="*{country}" id="country" name="country">
-                <option value="">Выберите</option>
+                <option value="">Выберите страну</option>
                 <option th:each="country : ${countries}" th:value="${country.id}" th:text="${country.name}"></option>
             </select>
-            <div class="error" th:if="${#fields.hasErrors('country')}" th:errors="*{country}">Country error</div>
         </div>
         <div>
             <label for="region">Регион</label>
-            <select th:field="*{region}" id="region" name="region">
-                <option value="">Выберите</option>
-                <option th:each="region : ${regions}" th:value="${region.id}" th:text="${region.name}"></option>
+            <select id="region" name="region" disabled>
+                <option value="">Выберите регион</option>
             </select>
-            <div class="error" th:if="${#fields.hasErrors('region')}" th:errors="*{region}">Region error</div>
         </div>
         <div>
             <label for="city">Город</label>
-            <select th:field="*{city}" id="city" name="city">
-                <option value="">Выберите</option>
-                <option th:each="city : ${cities}" th:value="${city.id}" th:text="${city.name}"></option>
+            <select id="city" name="city" disabled>
+                <option value="">Выберите город</option>
             </select>
-            <div class="error" th:if="${#fields.hasErrors('city')}" th:errors="*{city}">City error</div>
         </div>
     </div>
     <br>
@@ -171,5 +166,68 @@
         </div>
     </div>
 </form>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+    const countrySelect = document.getElementById('country');
+    const regionSelect = document.getElementById('region');
+    const citySelect = document.getElementById('city');
+
+    countrySelect.addEventListener('change', function() {
+        const countryId = this.value;
+        if (countryId) {
+            fetchRegions(countryId);
+            regionSelect.disabled = false;
+            citySelect.disabled = true;
+            citySelect.innerHTML = '<option value="">Выберите город</option>';
+        } else {
+            regionSelect.disabled = true;
+            citySelect.disabled = true;
+            regionSelect.innerHTML = '<option value="">Выберите регион</option>';
+            citySelect.innerHTML = '<option value="">Выберите город</option>';
+        }
+    });
+
+    regionSelect.addEventListener('change', function() {
+        const regionId = this.value;
+        if (regionId) {
+            fetchCities(regionId);
+            citySelect.disabled = false;
+        } else {
+            citySelect.disabled = true;
+            citySelect.innerHTML = '<option value="">Выберите город</option>';
+        }
+    });
+
+    function fetchRegions(countryId) {
+        fetch(`/api/regions?countryId=${countryId}`)
+            .then(response => response.json())
+            .then(regions => {
+                regionSelect.innerHTML = '<option value="">Выберите регион</option>';
+                regions.forEach(region => {
+                    const option = document.createElement('option');
+                    option.value = region.id;
+                    option.textContent = region.name;
+                    regionSelect.appendChild(option);
+                });
+            })
+            .catch(error => console.error('Error fetching regions:', error));
+    }
+
+    function fetchCities(regionId) {
+        fetch(`/api/cities?regionId=${regionId}`)
+            .then(response => response.json())
+            .then(cities => {
+                citySelect.innerHTML = '<option value="">Выберите город</option>';
+                cities.forEach(city => {
+                    const option = document.createElement('option');
+                    option.value = city.id;
+                    option.textContent = city.name;
+                    citySelect.appendChild(option);
+                });
+            })
+            .catch(error => console.error('Error fetching cities:', error));
+    }
+});
+</script>
 </body>
 </html>

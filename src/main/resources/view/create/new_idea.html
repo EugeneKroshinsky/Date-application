@@ -117,20 +117,24 @@
         a:hover {
             color: #45a049;
         }
+
+        input::placeholder {
+            font-style: italic;
+        }
     </style>
 </head>
 <body>
 <form th:method="POST" th:action="@{/dateIdea/new}" th:object="${dateIdea}">
     <p>Общая информация</p>
     <label for="name">Название места</label>
-    <input type="text" th:field="*{name}" id="name">
+    <input type="text" th:field="*{name}" id="name" placeholder="Кафе в стиле 60-х">
     <div class="error" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name error</div>
     <br>
 
     <div>
         <label for="type">Тип</label>
         <select th:field="*{type}" id="type" name="type">
-            <option value="">Выберите</option>
+            <option value="">Выберите тип</option>
             <option th:each="type : ${types}" th:value="${type.id}" th:text="${type.name}"></option>
         </select>
         <div class="error" th:if="${#fields.hasErrors('type')}" th:errors="*{type}">Type error</div>
@@ -143,7 +147,7 @@
         <div>
             <label for="country">Страна</label>
             <select th:field="*{country}" id="country" name="country">
-                <option value="">Выберите</option>
+                <option value="">Выберите страну</option>
                 <option th:each="country : ${countries}" th:value="${country.id}" th:text="${country.name}"></option>
             </select>
             <div class="error" th:if="${#fields.hasErrors('country')}" th:errors="*{country}">Country error</div>
@@ -153,16 +157,18 @@
             <select id="region" name="region" disabled>
                 <option value="">Выберите регион</option>
             </select>
+            <div class="error" th:if="${#fields.hasErrors('region')}" th:errors="*{region}">Region error</div>
         </div>
         <div>
             <label for="city">Город</label>
             <select id="city" name="city" disabled>
                 <option value="">Выберите город</option>
             </select>
+            <div class="error" th:if="${#fields.hasErrors('city')}" th:errors="*{city}">City error</div>
         </div>
         <div>
             <label for="address">Адрес</label>
-            <input type="text" th:field="*{address}" id="address">
+            <input type="text" th:field="*{address}" id="address" placeholder="ул. Карла Маркса, 112">
             <div class="error" th:if="${#fields.hasErrors('address')}" th:errors="*{address}">Address error</div>
         </div>
     </div>
@@ -196,7 +202,7 @@
 
     <p>Описание</p>
     <br>
-    <input type="text" th:field="*{description}" id="description">
+    <input type="text" th:field="*{description}" id="description" placeholder="Теплое атмосферное место, приду еще с удовольствием!">
     <div class="error" th:if="${#fields.hasErrors('description')}" th:errors="*{description}">Description error</div>
     <br>
 

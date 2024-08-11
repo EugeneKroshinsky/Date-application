@@ -1,8 +1,10 @@
 package com.example.DateApplication.dto.entities;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.Min;
@@ -23,7 +25,6 @@ public class DateIdeaEntity {
 
     @Column(name="date_of_creation")
     private Date date;
-
 
     @Column(name = "name")
     @NotEmpty(message = "Name can't be empty")

@@ -5,14 +5,18 @@ import com.example.DateApplication.dto.entities.CityEntity;
 import com.example.DateApplication.dto.entities.CountryEntity;
 import com.example.DateApplication.dto.entities.DateIdeaEntity;
 import com.example.DateApplication.dto.entities.RegionEntity;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.StringJoiner;
 
@@ -20,8 +24,11 @@ import java.util.StringJoiner;
 @Getter
 @AllArgsConstructor
 public class DateIdea {
+    private final SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yy");
+
     private int id;
-    private Date date;
+
+    private String date;
 
     @NotEmpty(message = "Name can't be empty")
     @Size(min=2, max=60, message = "Name should be between 2 and 60 characters")
@@ -50,12 +57,12 @@ public class DateIdea {
     private String description;
 
     public DateIdea() {
-        date = new Date();
+        date = dateFormat.format(new Date());
     }
 
     public DateIdea(DateIdeaEntity dateIdeaEntity) {
         this.id = dateIdeaEntity.getId();
-        this.date = dateIdeaEntity.getDate();
+        this.date = dateFormat.format(dateIdeaEntity.getDate());
         this.name = dateIdeaEntity.getName();
         this.country = dateIdeaEntity.getCountry().getName();
         this.region = dateIdeaEntity.getRegion().getName();

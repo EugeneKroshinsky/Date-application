@@ -2,9 +2,6 @@ package com.example.DateApplication;
 
 import com.example.DateApplication.dto.DateIdea;
 import com.example.DateApplication.dto.FindRequest;
-import com.example.DateApplication.dto.entities.CityEntity;
-import com.example.DateApplication.dto.entities.CountryEntity;
-import com.example.DateApplication.dto.entities.DateIdeaEntity;
 import com.example.DateApplication.repositories.*;
 import com.example.DateApplication.service.DateIdeaService;
 import com.example.DateApplication.service.RandomService;
@@ -14,32 +11,33 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.thymeleaf.model.IModel;
-
 import javax.validation.Valid;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Controller
 @RequestMapping("/dateIdea")
 public class DateController {
+    private final CountryRepository countryRepository;
+    private final TypeRepository typeRepository;
+    private final RandomService randomService;
+    private final DateIdeaRepository dateIdeaRepository;
+    private final DateIdeaValidator dateIdeaValidator;
+    private final DateIdeaService dateIdeaService;
+
     @Autowired
-    private RandomService randomService;
-    @Autowired
-    private DateIdeaRepository dateIdeaRepository;
-    @Autowired
-    private DateIdeaValidator dateIdeaValidator;
-    @Autowired
-    private DateIdeaService dateIdeaService;
-    @Autowired
-    private CountryRepository countryRepository;
-    @Autowired
-    private RegionRepository regionRepository;
-    @Autowired
-    private CityRepository cityRepository;
-    @Autowired
-    private TypeRepository typeRepository;
+    public DateController(RandomService randomService,
+                          DateIdeaRepository dateIdeaRepository,
+                          DateIdeaValidator dateIdeaValidator,
+                          DateIdeaService dateIdeaService,
+                          CountryRepository countryRepository,
+                          TypeRepository typeRepository) {
+        this.randomService = randomService;
+        this.dateIdeaRepository = dateIdeaRepository;
+        this.dateIdeaValidator = dateIdeaValidator;
+        this.dateIdeaService = dateIdeaService;
+        this.countryRepository = countryRepository;
+        this.typeRepository = typeRepository;
+    }
 
     @GetMapping("")
     public String start() {

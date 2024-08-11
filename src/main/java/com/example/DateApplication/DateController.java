@@ -102,9 +102,8 @@ public class DateController {
 
     @GetMapping("/{id}")
     public String getDateIdeaById(@PathVariable("id") int id, Model model) {
-        DateIdea dateIdea = dateIdeaRepository.findById(id).stream().
-                map(DateIdea::new)
-                .findAny()
+        DateIdea dateIdea = dateIdeaRepository.findById(id)
+                .map(DateIdea::new)
                 .orElse(null);
         model.addAttribute("dateIdea", dateIdea);
         return "find/show_idea";

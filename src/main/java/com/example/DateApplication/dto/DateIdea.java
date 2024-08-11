@@ -1,21 +1,12 @@
 package com.example.DateApplication.dto;
 
-
-import com.example.DateApplication.dto.entities.CityEntity;
-import com.example.DateApplication.dto.entities.CountryEntity;
 import com.example.DateApplication.dto.entities.DateIdeaEntity;
-import com.example.DateApplication.dto.entities.RegionEntity;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.format.annotation.DateTimeFormat;
-
-import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.StringJoiner;
@@ -24,7 +15,7 @@ import java.util.StringJoiner;
 @Getter
 @AllArgsConstructor
 public class DateIdea {
-    private final SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yy");
+    private final SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
 
     private int id;
 

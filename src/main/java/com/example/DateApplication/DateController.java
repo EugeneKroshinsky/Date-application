@@ -60,7 +60,7 @@ public class DateController {
             model.addAttribute("countries", countryRepository.findAll());
             return "create/new_idea";
         } else {
-            //добавлление в бд dateIdea
+            dateIdeaService.save(dateIdea);
             return "create/success";
         }
     }

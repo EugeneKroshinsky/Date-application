@@ -11,6 +11,7 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 import java.util.Date;
+import java.util.StringJoiner;
 
 @Entity
 @Table(name="date_idea")
@@ -27,8 +28,6 @@ public class DateIdeaEntity {
     private Date date;
 
     @Column(name = "name")
-    @NotEmpty(message = "Name can't be empty")
-    @Size(min=2, max=60, message = "Name should be between 2 and 60 characters")
     private String name;
 
     @ManyToOne
@@ -44,29 +43,39 @@ public class DateIdeaEntity {
     private CityEntity city;
 
     @Column(name = "address")
-    @NotEmpty(message = "address can't be empty")
-    @Size(min=2, max=60, message = "address should be between 2 and 60 characters")
     private String address;
 
     @ManyToOne
     @JoinColumn(name = "type_id")
-    @NotEmpty(message = "type can't be empty")
-    @Size(min=2, max=60, message = "type should be between 2 and 60 characters")
     private TypeEntity type;
 
     @Column(name="minprice")
-    @Min(value=0, message = "minPrice should be greater than 0")
     private int minPrice;
 
     @Column(name="maxprice")
-    @Min(value=0, message = "minPrice should be greater than 0")
     private int maxPrice;
 
     @Column(name="description")
-    @NotEmpty(message = "description can't be empty")
     private String description;
 
     public DateIdeaEntity() {
         date = new Date();
+    }
+
+    @Override
+    public String toString() {
+        return new StringJoiner(", ", DateIdeaEntity.class.getSimpleName() + "[", "]")
+                .add("id=" + id)
+                .add("date=" + date)
+                .add("name='" + name + "'")
+                .add("country=" + country)
+                .add("region=" + region)
+                .add("city=" + city)
+                .add("address='" + address + "'")
+                .add("type=" + type)
+                .add("minPrice=" + minPrice)
+                .add("maxPrice=" + maxPrice)
+                .add("description='" + description + "'")
+                .toString();
     }
 }

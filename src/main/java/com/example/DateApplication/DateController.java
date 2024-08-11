@@ -51,8 +51,6 @@ public class DateController {
         model.addAttribute("dateIdea", new DateIdea());
         model.addAttribute("types", typeRepository.findAll());
         model.addAttribute("countries", countryRepository.findAll());
-        model.addAttribute("regions", regionRepository.findAll());
-        model.addAttribute("cities",cityRepository.findAll());
         return "create/new_idea";
     }
     @PostMapping("/new")
@@ -64,8 +62,6 @@ public class DateController {
         if (bindingResult.hasErrors()) {
             model.addAttribute("types", typeRepository.findAll());
             model.addAttribute("countries", countryRepository.findAll());
-            model.addAttribute("regions", regionRepository.findAll());
-            model.addAttribute("cities",cityRepository.findAll());
             return "create/new_idea";
         } else {
             //добавлление в бд dateIdea
@@ -82,8 +78,6 @@ public class DateController {
     public String findDateIdea(@ModelAttribute("findRequest") FindRequest findRequest, Model model) {
         model.addAttribute("types", typeRepository.findAll());
         model.addAttribute("countries", countryRepository.findAll());
-        model.addAttribute("regions", regionRepository.findAll());
-        model.addAttribute("cities",cityRepository.findAll());
         return "find/find_idea";
     }
 
@@ -95,8 +89,6 @@ public class DateController {
         if (bindingResult.hasErrors()) {
             model.addAttribute("types", typeRepository.findAll());
             model.addAttribute("countries", countryRepository.findAll());
-            model.addAttribute("regions", regionRepository.findAll());
-            model.addAttribute("cities",cityRepository.findAll());
             return "find/find_idea";
         } else {
             List<DateIdea> dateIdeas = dateIdeaService.getDateIdeas(findRequest);

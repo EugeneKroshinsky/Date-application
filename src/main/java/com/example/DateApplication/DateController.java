@@ -105,11 +105,11 @@ public class DateController {
                 return "find/show_all";
             } else if (name.equals("Выбрать случайно")) {
                 DateIdea randomdateIdea = randomService.getRandomDateIdea(dateIdeas);
-                model.addAttribute("randomDateIdea");
-                return "/" + randomdateIdea.getId();
+                model.addAttribute("dateIdea", randomdateIdea);
+                return "/find/show_idea";
             }
         }
-        return "redirect:/dateIdea"; // имя вашего шаблона
+        return "redirect:/dateIdea";
     }
 
     @GetMapping("/{id}")

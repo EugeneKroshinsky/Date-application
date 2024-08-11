@@ -47,8 +47,7 @@ public class DateController {
     }
 
     @GetMapping("/new")
-    public String newIdea(DateIdea dateIdea, Model model) {
-        model.addAttribute("dateIdea", new DateIdea());
+    public String newIdea(@ModelAttribute("dateIdea") DateIdea dateIdea, Model model) {
         model.addAttribute("types", typeRepository.findAll());
         model.addAttribute("countries", countryRepository.findAll());
         return "create/new_idea";
@@ -56,9 +55,8 @@ public class DateController {
     @PostMapping("/new")
     public String createIdea(@ModelAttribute("dateIdea") @Valid DateIdea dateIdea,
                              BindingResult bindingResult,
-                             Model model) {
+                             Model model ) {
         dateIdeaValidator.validate(dateIdea, bindingResult);
-        System.out.println(dateIdea);
         if (bindingResult.hasErrors()) {
             model.addAttribute("types", typeRepository.findAll());
             model.addAttribute("countries", countryRepository.findAll());

@@ -7,6 +7,8 @@ import lombok.Setter;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import java.util.StringJoiner;
 
 @Setter
 @Getter
@@ -22,8 +24,20 @@ public class FindRequest {
 
     private String city;
 
-    private boolean isAnyPrice;
+    private String isAnyPrice;
 
     @Min(value=0, message = "Price should be greater than 0")
     private int price;
+
+    @Override
+    public String toString() {
+        return new StringJoiner(", ", FindRequest.class.getSimpleName() + "[", "]")
+                .add("type='" + type + "'")
+                .add("country='" + country + "'")
+                .add("region='" + region + "'")
+                .add("city='" + city + "'")
+                .add("isAnyPrice='" + isAnyPrice + "'")
+                .add("price=" + price)
+                .toString();
+    }
 }

@@ -53,11 +53,11 @@ public class DateIdeaEntity {
     @Size(min=2, max=60, message = "type should be between 2 and 60 characters")
     private TypeEntity type;
 
-    @Column(name="minPrice")
+    @Column(name="minprice")
     @Min(value=0, message = "minPrice should be greater than 0")
     private int minPrice;
 
-    @Column(name="mixPrice")
+    @Column(name="maxprice")
     @Min(value=0, message = "minPrice should be greater than 0")
     private int maxPrice;
 

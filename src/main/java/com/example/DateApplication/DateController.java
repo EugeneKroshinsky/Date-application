@@ -4,19 +4,16 @@ import com.example.DateApplication.dto.DateIdea;
 import com.example.DateApplication.dto.FindRequest;
 import com.example.DateApplication.dto.entities.CityEntity;
 import com.example.DateApplication.dto.entities.CountryEntity;
-import com.example.DateApplication.repositories.CityRepository;
-import com.example.DateApplication.repositories.CountryRepository;
-import com.example.DateApplication.repositories.RegionRepository;
-import com.example.DateApplication.repositories.TypeRepository;
+import com.example.DateApplication.dto.entities.DateIdeaEntity;
+import com.example.DateApplication.repositories.*;
+import com.example.DateApplication.service.DateIdeaService;
+import com.example.DateApplication.service.RandomService;
 import com.example.DateApplication.utils.DateIdeaValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.thymeleaf.model.IModel;
 
 import javax.validation.Valid;
@@ -25,10 +22,16 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
+@RequestMapping("/dateIdea")
 public class DateController {
     @Autowired
+    private RandomService randomService;
+    @Autowired
+    private DateIdeaRepository dateIdeaRepository;
+    @Autowired
     private DateIdeaValidator dateIdeaValidator;
-
+    @Autowired
+    private DateIdeaService dateIdeaService;
     @Autowired
     private CountryRepository countryRepository;
     @Autowired
@@ -38,12 +41,12 @@ public class DateController {
     @Autowired
     private TypeRepository typeRepository;
 
-    @GetMapping("/dateIdea")
+    @GetMapping("")
     public String start() {
         return "index";
     }
 
-    @GetMapping("/dateIdea/new")
+    @GetMapping("/new")
     public String newIdea(DateIdea dateIdea, Model model) {
         model.addAttribute("dateIdea", new DateIdea());
         model.addAttribute("types", typeRepository.findAll());
@@ -52,11 +55,12 @@ public class DateController {
         model.addAttribute("cities",cityRepository.findAll());
         return "create/new_idea";
     }
-    @PostMapping("/dateIdea/new")
+    @PostMapping("/new")
     public String createIdea(@ModelAttribute("dateIdea") @Valid DateIdea dateIdea,
                              BindingResult bindingResult,
                              Model model) {
         dateIdeaValidator.validate(dateIdea, bindingResult);
+        System.out.println(dateIdea);
         if (bindingResult.hasErrors()) {
             model.addAttribute("types", typeRepository.findAll());
             model.addAttribute("countries", countryRepository.findAll());
@@ -64,16 +68,17 @@ public class DateController {
             model.addAttribute("cities",cityRepository.findAll());
             return "create/new_idea";
         } else {
+            //добавлление в бд dateIdea
             return "create/success";
         }
     }
 
-    @GetMapping("/dateIdea/new/success")
+    @GetMapping("/new/success")
     public String success() {
         return "create/success";
     }
 
-    @GetMapping("dateIdea/find")
+    @GetMapping("/find")
     public String findDateIdea(@ModelAttribute("findRequest") FindRequest findRequest, Model model) {
         model.addAttribute("types", typeRepository.findAll());
         model.addAttribute("countries", countryRepository.findAll());
@@ -82,25 +87,38 @@ public class DateController {
         return "find/find_idea";
     }
 
-    @GetMapping("/dateIdea/find/execute")
+    @GetMapping("/find/execute")
     public String findDateIdeas(@ModelAttribute("findRequest") @Valid FindRequest findRequest,
                                 BindingResult bindingResult,
                                 @RequestParam(name = "button") String name,
                                 Model model) {
         if (bindingResult.hasErrors()) {
+            model.addAttribute("types", typeRepository.findAll());
+            model.addAttribute("countries", countryRepository.findAll());
+            model.addAttribute("regions", regionRepository.findAll());
+            model.addAttribute("cities",cityRepository.findAll());
             return "find/find_idea";
         } else {
+            List<DateIdea> dateIdeas = dateIdeaService.getDateIdeas(findRequest);
             if (name.equals("Показать все")) {
-                //получаем из базы данных всех соответствующих фильтрам в List,
-                // а потом model.addAttribute(List)
-                //временно
+                model.addAttribute("dateIdeas", dateIdeas);
                 return "find/show_all";
             } else if (name.equals("Выбрать случайно")) {
-                //рандомно достать 1 элемент
+                DateIdea randomdateIdea = randomService.getRandomDateIdea(dateIdeas);
+                model.addAttribute("randomDateIdea");
+                return "/" + randomdateIdea.getId();
             }
         }
-
-
         return "redirect:/dateIdea"; // имя вашего шаблона
+    }
+
+    @GetMapping("/{id}")
+    public String getDateIdeaById(@PathVariable("id") int id, Model model) {
+        DateIdea dateIdea = dateIdeaRepository.findById(id).stream().
+                map(DateIdea::new)
+                .findAny()
+                .orElse(null);
+        model.addAttribute("dateIdea", dateIdea);
+        return "find/show_idea";
     }
 }

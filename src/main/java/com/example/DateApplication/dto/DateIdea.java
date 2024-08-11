@@ -3,6 +3,7 @@ package com.example.DateApplication.dto;
 
 import com.example.DateApplication.dto.entities.CityEntity;
 import com.example.DateApplication.dto.entities.CountryEntity;
+import com.example.DateApplication.dto.entities.DateIdeaEntity;
 import com.example.DateApplication.dto.entities.RegionEntity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -13,6 +14,7 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 import java.util.Date;
+import java.util.StringJoiner;
 
 @Setter
 @Getter
@@ -49,5 +51,36 @@ public class DateIdea {
 
     public DateIdea() {
         date = new Date();
+    }
+
+    public DateIdea(DateIdeaEntity dateIdeaEntity) {
+        this.id = dateIdeaEntity.getId();
+        this.date = dateIdeaEntity.getDate();
+        this.name = dateIdeaEntity.getName();
+        this.country = dateIdeaEntity.getCountry().getName();
+        this.region = dateIdeaEntity.getRegion().getName();
+        this.city = dateIdeaEntity.getCity().getName();
+        this.address = dateIdeaEntity.getAddress();
+        this.type = dateIdeaEntity.getType().getName();
+        this.minPrice = dateIdeaEntity.getMinPrice();
+        this.maxPrice = dateIdeaEntity.getMaxPrice();
+        this.description = dateIdeaEntity.getDescription();
+    }
+
+    @Override
+    public String toString() {
+        return new StringJoiner(", ", DateIdea.class.getSimpleName() + "[", "]")
+                .add("id=" + id)
+                .add("date=" + date)
+                .add("name='" + name + "'")
+                .add("country='" + country + "'")
+                .add("region='" + region + "'")
+                .add("city='" + city + "'")
+                .add("address='" + address + "'")
+                .add("type='" + type + "'")
+                .add("minPrice=" + minPrice)
+                .add("maxPrice=" + maxPrice)
+                .add("description='" + description + "'")
+                .toString();
     }
 }

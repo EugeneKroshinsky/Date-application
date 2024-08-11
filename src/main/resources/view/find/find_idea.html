@@ -72,9 +72,19 @@
             align-items: flex-start;
         }
 
-        .budget-inputs input {
+        .budget-input-container {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .budget-input-container input[type="text"] {
             width: 150px;
             margin-right: 10px;
+        }
+
+        .budget-input-container label {
+            font-weight: normal;
         }
 
         .error {
@@ -112,7 +122,7 @@
     <p>Тип</p>
     <div>
         <select th:field="*{type}" id="type" name="type">
-            <option value="">Выберите</option>
+            <option value="">Выберите тип</option>
             <option th:each="type : ${types}" th:value="${type.id}" th:text="${type.name}"></option>
         </select>
         <div class="error" th:if="${#fields.hasErrors('type')}" th:errors="*{type}">Type error</div>
@@ -146,13 +156,16 @@
     <br>
     <hr>
 
+
     <p>Бюджет</p>
     <div class="budget-inputs">
-        <div>
-            <label for="price">
-                <input type="text" th:field="*{price}" id="price">
-                $
-            </label>
+        <div class="budget-input-container">
+            <input type="checkbox" th:field="*{isAnyPrice}" id="anyPrice" th:value="'true'">
+            <label for="anyPrice">Любая цена</label>
+        </div>
+        <div class="budget-input-container">
+            <input type="text" th:field="*{price}" id="price" th:disabled="${findRequest.isAnyPrice != null}">
+            <label for="price">$</label>
         </div>
         <div class="error" th:if="${#fields.hasErrors('price')}" th:errors="*{price}">Price error</div>
     </div>
@@ -226,6 +239,15 @@
                 });
             })
             .catch(error => console.error('Error fetching cities:', error));
+    }
+    });
+
+    // Add an event listener for the "Any Price" checkbox
+    document.getElementById('anyPrice').addEventListener('change', function() {
+    const priceInput = document.getElementById('price');
+    priceInput.disabled = this.checked;
+    if (this.checked) {
+        priceInput.value = '';
     }
 });
 </script>

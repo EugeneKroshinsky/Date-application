@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class DateIdeaService {
@@ -34,14 +35,13 @@ public class DateIdeaService {
     }
 
     public List<DateIdea> getDateIdeas(FindRequest findRequest) {
-        //TODO Реализовать логику поиску по полученным параметрам
+        //TODO Реализовать логику поиска по полученным параметрам
         return dateIdeaRepository.findAll().stream()
                 .map(DateIdea::new)
                 .toList();
     }
 
     public void save(DateIdea dateIdea) {
-        System.out.println(dateIdea);
         DateIdeaEntity dateIdeaEntity = new DateIdeaEntity();
         dateIdeaEntity.setName(dateIdea.getName());
         dateIdeaEntity.setDate(new Date());
@@ -53,7 +53,12 @@ public class DateIdeaService {
         dateIdeaEntity.setMaxPrice(dateIdea.getMaxPrice());
         dateIdeaEntity.setMinPrice(dateIdea.getMinPrice());
         dateIdeaEntity.setDescription(dateIdea.getDescription());
-        System.out.println(dateIdeaEntity);
         dateIdeaRepository.save(dateIdeaEntity);
+    }
+
+    public DateIdea findById(int id) {
+        Optional<DateIdeaEntity> dateIdeaEntity = dateIdeaRepository.findById(id);
+        //Обработка исключений
+        return dateIdeaEntity.map(DateIdea::new).orElse(null);
     }
 }

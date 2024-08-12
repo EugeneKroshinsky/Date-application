@@ -107,4 +107,10 @@ public class DateController {
         model.addAttribute("dateIdea", dateIdea);
         return "find/show_idea";
     }
+
+    @DeleteMapping("/{id}")
+    public String deleteIdea(@PathVariable("id") int id) {
+        dateIdeaService.deleteIdea(id);
+        return "redirect:/dateIdea/find";
+    }
 }

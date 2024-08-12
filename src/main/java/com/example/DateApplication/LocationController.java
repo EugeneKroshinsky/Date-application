@@ -1,7 +1,7 @@
 package com.example.DateApplication;
 
 import com.example.DateApplication.dto.RegionDTO;
-import com.example.DateApplication.dto.entities.CityDTO;
+import com.example.DateApplication.dto.CityDTO;
 import com.example.DateApplication.service.CityService;
 import com.example.DateApplication.service.RegionService;
 import org.springframework.web.bind.annotation.*;

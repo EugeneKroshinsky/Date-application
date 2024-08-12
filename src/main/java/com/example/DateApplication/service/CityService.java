@@ -1,12 +1,11 @@
 package com.example.DateApplication.service;
 
-import com.example.DateApplication.dto.entities.CityDTO;
+import com.example.DateApplication.dto.CityDTO;
 import com.example.DateApplication.dto.entities.CityEntity;
 import com.example.DateApplication.repositories.CityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.Access;
 import java.util.List;
 import java.util.stream.Collectors;
 

@@ -61,4 +61,8 @@ public class DateIdeaService {
         //Обработка исключений
         return dateIdeaEntity.map(DateIdea::new).orElse(null);
     }
+
+    public void deleteIdea(int id) {
+        dateIdeaRepository.deleteById(id);
+    }
 }

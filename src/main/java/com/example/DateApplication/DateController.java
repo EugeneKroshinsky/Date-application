@@ -2,7 +2,7 @@ package com.example.DateApplication;
 
 import com.example.DateApplication.dto.DateIdea;
 import com.example.DateApplication.dto.FindRequest;
-import com.example.DateApplication.repositories.*;
+import com.example.DateApplication.dto.exceptions.NoEntityException;
 import com.example.DateApplication.service.*;
 import com.example.DateApplication.utils.DateIdeaValidator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -79,7 +79,7 @@ public class DateController {
     public String findDateIdeas(@ModelAttribute("findRequest") @Valid FindRequest findRequest,
                                 BindingResult bindingResult,
                                 @RequestParam(name = "button") String name,
-                                Model model) {
+                                Model model) throws Exception {
 
         if (bindingResult.hasErrors()) {
             model.addAttribute("types", typeService.findAll());
@@ -108,7 +108,7 @@ public class DateController {
     }
 
     @DeleteMapping("/{id}")
-    public String deleteIdea(@PathVariable("id") int id) {
+    public String deleteIdea(@PathVariable("id") int id) throws NoEntityException {
         dateIdeaService.deleteIdea(id);
         return "redirect:/dateIdea/find";
     }
@@ -118,6 +118,14 @@ public class DateController {
         String errorMessage = "Пользователь с id=" + ex.getEntityId() + " не найден. Пожалуйста проверьте запрос.";
         ModelAndView model = new ModelAndView();
         model.addObject("errorMessage", errorMessage);
+        model.setViewName("/find/error");
+        return model;
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ModelAndView exception(Exception e) {
+        ModelAndView model = new ModelAndView();
+        model.addObject("errorMessage", e.getMessage());
         model.setViewName("/find/error");
         return model;
     }

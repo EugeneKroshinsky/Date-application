@@ -2,16 +2,15 @@ package com.example.DateApplication.service;
 
 import com.example.DateApplication.dto.DateIdea;
 import com.example.DateApplication.dto.FindRequest;
+import com.example.DateApplication.dto.exceptions.NoEntityException;
 import com.example.DateApplication.dto.entities.DateIdeaEntity;
 import com.example.DateApplication.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class DateIdeaService {
@@ -59,6 +58,7 @@ public class DateIdeaService {
             logger.info("DateIdea with id={} was successfully saved", dateIdea.getId());
         } catch (Exception e) {
             logger.error("An error occurred while saving DateIdea", e);
+            throw e;
         }
     }
 
@@ -76,6 +76,7 @@ public class DateIdeaService {
             logger.info("DateIdea with id={} was successfully deleted", id);
         } catch(Exception e) {
             logger.error("An error occurred while deleting DateIdea with id = {}", id);
+            throw new NoEntityException(id);
         }
 
     }

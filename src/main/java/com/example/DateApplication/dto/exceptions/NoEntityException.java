@@ -1,4 +1,4 @@
-package com.example.DateApplication.service;
+package com.example.DateApplication.dto.exceptions;
 
 import lombok.Getter;
 
@@ -10,5 +10,4 @@ public class NoEntityException extends RuntimeException {
         super("Entity with id " + entityId + " not found");
         this.entityId = entityId;
     }
-
 }

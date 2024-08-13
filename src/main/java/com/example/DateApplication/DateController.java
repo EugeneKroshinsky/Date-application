@@ -3,10 +3,7 @@ package com.example.DateApplication;
 import com.example.DateApplication.dto.DateIdea;
 import com.example.DateApplication.dto.FindRequest;
 import com.example.DateApplication.repositories.*;
-import com.example.DateApplication.service.CountryService;
-import com.example.DateApplication.service.DateIdeaService;
-import com.example.DateApplication.service.RandomService;
-import com.example.DateApplication.service.TypeService;
+import com.example.DateApplication.service.*;
 import com.example.DateApplication.utils.DateIdeaValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -91,7 +88,7 @@ public class DateController {
         List<DateIdea> dateIdeas = dateIdeaService.getDateIdeas(findRequest);
         if (name.equals("Показать все")) {
             model.addAttribute("dateIdeas", dateIdeas);
-            return "find/show_all";
+            return "/find/show_all";
         } else if (name.equals("Выбрать случайно")) {
             DateIdea randomdateIdea = randomService.getRandomDateIdea(dateIdeas);
             model.addAttribute("dateIdea", randomdateIdea);
@@ -102,15 +99,22 @@ public class DateController {
     }
 
     @GetMapping("/{id}")
-    public String getDateIdeaById(@PathVariable("id") int id, Model model) {
+    public String getDateIdeaById(@PathVariable("id") int id, Model model) throws NoEntityException {
         DateIdea dateIdea = dateIdeaService.findById(id);
         model.addAttribute("dateIdea", dateIdea);
-        return "find/show_idea";
+        return "/find/show_idea";
     }
 
     @DeleteMapping("/{id}")
     public String deleteIdea(@PathVariable("id") int id) {
         dateIdeaService.deleteIdea(id);
         return "redirect:/dateIdea/find";
+    }
+
+    @ExceptionHandler(NoEntityException.class)
+    public String handleNoEntityException(NoEntityException ex, Model model) {
+        String errorMessage = "Пользователь с id=" + ex.getEntityId() + " не найден. Пожалуйста проверьте запрос.";
+        model.addAttribute("errorMessage", errorMessage);
+        return "/find/error";
     }
 }

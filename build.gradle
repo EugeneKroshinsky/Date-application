@@ -27,6 +27,7 @@ dependencies {
 	implementation group: 'org.postgresql', name: 'postgresql', version: '42.7.3'
 
 	implementation('org.springframework.boot:spring-boot-starter-data-jpa:2.7.5')
+	testImplementation("ch.qos.logback:logback-classic:1.5.6")
 
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'

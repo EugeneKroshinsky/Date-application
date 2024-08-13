@@ -1,5 +1,8 @@
 package com.example.DateApplication.service;
 
+import lombok.Getter;
+
+@Getter
 public class NoEntityException extends RuntimeException {
     private final int entityId;
 
@@ -8,7 +11,4 @@ public class NoEntityException extends RuntimeException {
         this.entityId = entityId;
     }
 
-    public int getEntityId() {
-        return entityId;
-    }
 }

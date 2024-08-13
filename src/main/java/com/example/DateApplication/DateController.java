@@ -10,6 +10,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
+
 import javax.validation.Valid;
 import java.util.List;
 
@@ -112,9 +114,11 @@ public class DateController {
     }
 
     @ExceptionHandler(NoEntityException.class)
-    public String handleNoEntityException(NoEntityException ex, Model model) {
+    public ModelAndView handleNoEntityException(NoEntityException ex) {
         String errorMessage = "Пользователь с id=" + ex.getEntityId() + " не найден. Пожалуйста проверьте запрос.";
-        model.addAttribute("errorMessage", errorMessage);
-        return "/find/error";
+        ModelAndView model = new ModelAndView();
+        model.addObject("errorMessage", errorMessage);
+        model.setViewName("/find/error");
+        return model;
     }
 }

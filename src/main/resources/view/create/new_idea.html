@@ -124,7 +124,7 @@
     </style>
 </head>
 <body>
-<form th:method="POST" th:action="@{/dateIdea/new}" th:object="${dateIdea}">
+<form th:method="POST" th:action="@{/dateIdea/new}" th:object="${dateIdea}" enctype="multipart/form-data">
     <p>Общая информация</p>
     <label for="name">Название места</label>
     <input type="text" th:field="*{name}" id="name" placeholder="Кафе в стиле 60-х">
@@ -195,7 +195,7 @@
 
     <p>Добавьте фото</p>
     <br>
-    <input type="file" id="file" onchange="previewImage(event)">
+    <input type="file" id="file" name="file" onchange="previewImage(event)">
     <img id="preview">
     <br>
     <hr>

@@ -25,6 +25,17 @@
             margin-bottom: 20px;
         }
 
+        .image-container {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .image-container img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 5px;
+        }
+
         .info-row {
             display: flex;
             margin-bottom: 10px;
@@ -42,11 +53,33 @@
             background-color: #f5f5f5;
             border-radius: 5px;
         }
+
+        .button-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #e53935;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #c62828;
+        }
     </style>
 </head>
 <body>
 <div class="idea-container">
     <h1 th:text="${dateIdea.getName()}">Name</h1>
+    <div class="image-container">
+        <img th:src="${dateIdea.imageUrl}" alt="Date Idea Image">
+    </div>
     <div class="info-row">
         <div class="info-label">Тип:</div>
         <div th:text="${dateIdea.getType()}">Type</div>
@@ -67,9 +100,11 @@
         <div th:text="${dateIdea.getDate()}">Date of creation</div>
     </div>
 
-    <form th:method="DELETE" th:action="@{/dateIdea/{id}(id = ${dateIdea.getId()})}">
-        <input type="submit" value="Удалить">
-    </form>
+    <div class="button-container">
+        <form th:method="DELETE" th:action="@{/dateIdea/{id}(id = ${dateIdea.getId()})}">
+            <button type="submit">Удалить</button>
+        </form>
+    </div>
 </div>
 </body>
 </html>

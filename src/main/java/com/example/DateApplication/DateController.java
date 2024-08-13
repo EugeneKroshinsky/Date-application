@@ -10,14 +10,17 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
+import java.io.IOException;
 import java.util.List;
 
 @Controller
 @RequestMapping("/dateIdea")
 public class DateController {
+    private final FileStorageService fileStorageService;
     private final CountryService countryService;
     private final TypeService typeService;
     private final RandomService randomService;
@@ -25,11 +28,13 @@ public class DateController {
     private final DateIdeaService dateIdeaService;
 
     @Autowired
-    public DateController(RandomService randomService,
+    public DateController(FileStorageService fileStorageService,
+                          RandomService randomService,
                           DateIdeaValidator dateIdeaValidator,
                           DateIdeaService dateIdeaService,
                           CountryService countryService,
                           TypeService typeService) {
+        this.fileStorageService = fileStorageService;
         this.randomService = randomService;
         this.dateIdeaValidator = dateIdeaValidator;
         this.dateIdeaService = dateIdeaService;
@@ -51,8 +56,14 @@ public class DateController {
     @PostMapping("/new")
     public String createIdea(@ModelAttribute("dateIdea") @Valid DateIdea dateIdea,
                              BindingResult bindingResult,
-                             Model model ) {
+                             Model model,
+                             @RequestParam("file") MultipartFile file) throws Exception {
         dateIdeaValidator.validate(dateIdea, bindingResult);
+
+        String fileName = fileStorageService.storeFile(file);
+        System.out.println("============1" + fileName);
+        dateIdea.setImageUrl(fileName);
+        System.out.println("============2" + fileName);
         if (bindingResult.hasErrors()) {
             model.addAttribute("types", typeService.findAll());
             model.addAttribute("countries", countryService.findAll());
@@ -96,13 +107,13 @@ public class DateController {
             model.addAttribute("dateIdea", randomdateIdea);
             return "/find/show_idea";
         }
-
         return "redirect:/dateIdea";
     }
 
     @GetMapping("/{id}")
     public String getDateIdeaById(@PathVariable("id") int id, Model model) throws NoEntityException {
         DateIdea dateIdea = dateIdeaService.findById(id);
+        System.out.println(dateIdea);
         model.addAttribute("dateIdea", dateIdea);
         return "/find/show_idea";
     }
@@ -123,7 +134,15 @@ public class DateController {
     }
 
     @ExceptionHandler(Exception.class)
-    public ModelAndView exception(Exception e) {
+    public ModelAndView nullPointerException(Exception e) {
+        ModelAndView model = new ModelAndView();
+        model.addObject("errorMessage", e.getMessage());
+        model.setViewName("/error");
+        return model;
+    }
+
+    @ExceptionHandler(IOException.class)
+    public ModelAndView ioException(IOException e) {
         ModelAndView model = new ModelAndView();
         model.addObject("errorMessage", e.getMessage());
         model.setViewName("/error");

@@ -54,6 +54,7 @@ public class DateIdeaService {
             dateIdeaEntity.setMaxPrice(dateIdea.getMaxPrice());
             dateIdeaEntity.setMinPrice(dateIdea.getMinPrice());
             dateIdeaEntity.setDescription(dateIdea.getDescription());
+            dateIdeaEntity.setImageURL(dateIdea.getImageUrl());
             dateIdeaRepository.save(dateIdeaEntity);
             logger.info("DateIdea with id={} was successfully saved", dateIdea.getId());
         } catch (Exception e) {

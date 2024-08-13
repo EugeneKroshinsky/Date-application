@@ -47,6 +47,8 @@ public class DateIdea {
     @NotEmpty(message = "description can't be empty")
     private String description;
 
+    private String imageUrl;
+
     public DateIdea() {
         date = dateFormat.format(new Date());
     }
@@ -63,13 +65,15 @@ public class DateIdea {
         this.minPrice = dateIdeaEntity.getMinPrice();
         this.maxPrice = dateIdeaEntity.getMaxPrice();
         this.description = dateIdeaEntity.getDescription();
+        this.imageUrl = dateIdeaEntity.getImageURL();
     }
 
     @Override
     public String toString() {
         return new StringJoiner(", ", DateIdea.class.getSimpleName() + "[", "]")
+                .add("dateFormat=" + dateFormat)
                 .add("id=" + id)
-                .add("date=" + date)
+                .add("date='" + date + "'")
                 .add("name='" + name + "'")
                 .add("country='" + country + "'")
                 .add("region='" + region + "'")
@@ -79,6 +83,7 @@ public class DateIdea {
                 .add("minPrice=" + minPrice)
                 .add("maxPrice=" + maxPrice)
                 .add("description='" + description + "'")
+                .add("imageUrl='" + imageUrl + "'")
                 .toString();
     }
 }

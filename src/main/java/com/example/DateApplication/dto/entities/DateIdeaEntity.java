@@ -1,15 +1,10 @@
 package com.example.DateApplication.dto.entities;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Size;
 import java.util.Date;
 import java.util.StringJoiner;
 
@@ -58,6 +53,9 @@ public class DateIdeaEntity {
     @Column(name="description")
     private String description;
 
+    @Column(name="image_url")
+    private String imageURL;
+
     public DateIdeaEntity() {
         date = new Date();
     }
@@ -76,6 +74,7 @@ public class DateIdeaEntity {
                 .add("minPrice=" + minPrice)
                 .add("maxPrice=" + maxPrice)
                 .add("description='" + description + "'")
+                .add("imageURL='" + imageURL + "'")
                 .toString();
     }
 }

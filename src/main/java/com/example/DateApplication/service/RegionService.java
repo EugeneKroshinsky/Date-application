@@ -20,8 +20,7 @@ public class RegionService {
     }
 
     public List<RegionDTO> getRegionsByCountryId(int countryId) {
-        List<RegionEntity> regions = regionRepository.findByCountryId(countryId);
-        return regions.stream()
+        return regionRepository.findByCountryId(countryId).stream()
                 .map(this::convertToDTO)
                 .collect(Collectors.toList());
     }

@@ -126,7 +126,7 @@ public class DateController {
     public ModelAndView exception(Exception e) {
         ModelAndView model = new ModelAndView();
         model.addObject("errorMessage", e.getMessage());
-        model.setViewName("/find/error");
+        model.setViewName("/error");
         return model;
     }
 }

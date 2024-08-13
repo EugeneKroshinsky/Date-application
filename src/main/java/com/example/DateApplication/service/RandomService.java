@@ -8,9 +8,9 @@ import java.util.Random;
 
 @Service
 public class RandomService {
-    public DateIdea getRandomDateIdea(List<DateIdea> dateIdeas) {
-        Random random = new Random();
-        int index = random.nextInt(dateIdeas.size());
-        return dateIdeas.get(index);
+    public DateIdea getRandomDateIdea(List<DateIdea> dateIdeas) throws NullPointerException {
+            Random random = new Random();
+            int index = random.nextInt(dateIdeas.size());
+            return dateIdeas.get(index);
     }
 }

@@ -20,8 +20,7 @@ public class CityService {
     }
 
     public List<CityDTO> getCitiesByRegionId(int regionId) {
-        List<CityEntity> cities = cityRepository.findByRegionId(regionId);
-        return cities.stream()
+        return cityRepository.findByRegionId(regionId).stream()
                 .map(this::convertToDTO)
                 .collect(Collectors.toList());
     }

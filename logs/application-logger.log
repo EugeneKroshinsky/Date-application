@@ -2276,3 +2276,11 @@ org.thymeleaf.exceptions.TemplateInputException: Error resolving template [/find
 2024-08-13 22:43:52,141 [http-nio-8080-exec-2] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
 2024-08-13 22:43:52,141 [http-nio-8080-exec-2] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
 2024-08-13 22:43:52,149 [http-nio-8080-exec-2] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 8 ms
+2024-08-13 22:51:20,309 [http-nio-8080-exec-6] INFO  c.e.D.service.DateIdeaService - DateIdea with id=10 was successfully deleted
+2024-08-13 22:53:23,177 [http-nio-8080-exec-9] INFO  c.e.D.service.DateIdeaService - DateIdea with id=0 was successfully saved
+2024-08-13 22:53:50,278 [http-nio-8080-exec-7] INFO  c.e.D.service.DateIdeaService - DateIdea with id=11 was successfully deleted
+2024-08-13 22:54:00,713 [http-nio-8080-exec-6] INFO  c.e.D.service.DateIdeaService - DateIdea with id=9 was successfully deleted
+2024-08-13 23:37:20,819 [HikariPool-1 housekeeper] WARN  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=40m7s172ms208µs201ns).
+2024-08-13 23:39:27,519 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-08-13 23:39:27,519 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2024-08-13 23:39:27,525 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.

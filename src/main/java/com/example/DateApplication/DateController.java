@@ -20,6 +20,7 @@ import java.util.List;
 @Controller
 @RequestMapping("/dateIdea")
 public class DateController {
+    private final FindIdeaService findIdeaService;
     private final FileStorageService fileStorageService;
     private final CountryService countryService;
     private final TypeService typeService;
@@ -28,12 +29,14 @@ public class DateController {
     private final DateIdeaService dateIdeaService;
 
     @Autowired
-    public DateController(FileStorageService fileStorageService,
+    public DateController(FindIdeaService findIdeaService,
+                          FileStorageService fileStorageService,
                           RandomService randomService,
                           DateIdeaValidator dateIdeaValidator,
                           DateIdeaService dateIdeaService,
                           CountryService countryService,
                           TypeService typeService) {
+        this.findIdeaService = findIdeaService;
         this.fileStorageService = fileStorageService;
         this.randomService = randomService;
         this.dateIdeaValidator = dateIdeaValidator;
@@ -98,23 +101,22 @@ public class DateController {
             return "find/find_idea";
         }
 
-        List<DateIdea> dateIdeas = dateIdeaService.getDateIdeas(findRequest);
+        List<DateIdea> dateIdeas = findIdeaService.getDateIdeas(findRequest);
         if (name.equals("Показать все")) {
             model.addAttribute("dateIdeas", dateIdeas);
             return "/find/show_all";
         } else if (name.equals("Выбрать случайно")) {
-            DateIdea randomdateIdea = randomService.getRandomDateIdea(dateIdeas);
-            model.addAttribute("dateIdea", randomdateIdea);
+            model.addAttribute("dateIdea", randomService.getRandomDateIdea(dateIdeas));
             return "/find/show_idea";
+        } else {
+            return "redirect:/dateIdea";
         }
-        return "redirect:/dateIdea";
+
     }
 
     @GetMapping("/{id}")
     public String getDateIdeaById(@PathVariable("id") int id, Model model) throws NoEntityException {
-        DateIdea dateIdea = dateIdeaService.findById(id);
-        System.out.println(dateIdea);
-        model.addAttribute("dateIdea", dateIdea);
+        model.addAttribute("dateIdea",  dateIdeaService.findById(id));
         return "/find/show_idea";
     }
 

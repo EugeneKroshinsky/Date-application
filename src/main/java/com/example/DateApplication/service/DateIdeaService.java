@@ -34,13 +34,6 @@ public class DateIdeaService {
         this.cityRepository = cityRepository;
     }
 
-    public List<DateIdea> getDateIdeas(FindRequest findRequest) {
-        //TODO Реализовать логику поиска по полученным параметрам
-        return dateIdeaRepository.findAll().stream()
-                .map(DateIdea::new)
-                .toList();
-    }
-
     public void save(DateIdea dateIdea) {
         try {
             DateIdeaEntity dateIdeaEntity = new DateIdeaEntity();

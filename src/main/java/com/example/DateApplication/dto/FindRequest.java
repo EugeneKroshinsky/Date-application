@@ -6,8 +6,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.validation.constraints.Min;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 import java.util.StringJoiner;
 
 @Setter
@@ -15,7 +13,6 @@ import java.util.StringJoiner;
 @AllArgsConstructor
 @NoArgsConstructor
 public class FindRequest {
-    @NotEmpty(message = "type can't be empty")
     private String type;
 
     private String country;
@@ -24,7 +21,9 @@ public class FindRequest {
 
     private String city;
 
-    private String isAnyPrice;
+    private Boolean isAnyPrice;
+
+    private Boolean isAnyType;
 
     @Min(value=0, message = "Price should be greater than 0")
     private int price;
@@ -37,6 +36,7 @@ public class FindRequest {
                 .add("region='" + region + "'")
                 .add("city='" + city + "'")
                 .add("isAnyPrice='" + isAnyPrice + "'")
+                .add("isAnyType='" + isAnyType + "'")
                 .add("price=" + price)
                 .toString();
     }

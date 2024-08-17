@@ -1,6 +1,7 @@
 CREATE TABLE date_idea(
 	id serial PRIMARY KEY,
     date_of_creation date NOT NULL,
+    name VARCHAR NOT NULL,
 	country_id INT NOT NULL,
 	region_id INT NOT NULL,
 	city_id INT NOT NULL,

@@ -64,9 +64,8 @@ public class DateController {
         dateIdeaValidator.validate(dateIdea, bindingResult);
 
         String fileName = fileStorageService.storeFile(file);
-        System.out.println("============1" + fileName);
         dateIdea.setImageUrl(fileName);
-        System.out.println("============2" + fileName);
+
         if (bindingResult.hasErrors()) {
             model.addAttribute("types", typeService.findAll());
             model.addAttribute("countries", countryService.findAll());
@@ -94,6 +93,8 @@ public class DateController {
                                 BindingResult bindingResult,
                                 @RequestParam(name = "button") String name,
                                 Model model) throws Exception {
+
+        System.out.println(findRequest);
 
         if (bindingResult.hasErrors()) {
             model.addAttribute("types", typeService.findAll());

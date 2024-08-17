@@ -121,7 +121,11 @@
 
     <p>Тип</p>
     <div>
-        <select th:field="*{type}" id="type" name="type">
+        <div class="budget-input-container">
+            <input type="checkbox" th:field="*{isAnyType}" id="anyType" th:value="'true'">
+            <label for="anyType">Любой тип</label>
+        </div>
+        <select th:field="*{type}" id="type" name="type" th:disabled="${findRequest.isAnyType != null}">
             <option value="">Выберите тип</option>
             <option th:each="type : ${types}" th:value="${type.id}" th:text="${type.name}"></option>
         </select>
@@ -248,6 +252,15 @@
     priceInput.disabled = this.checked;
     if (this.checked) {
         priceInput.value = '';
+    }
+});
+
+    // Add an event listener for the "Any Type" checkbox
+    document.getElementById('anyType').addEventListener('change', function() {
+    const typeSelect = document.getElementById('type');
+    typeSelect.disabled = this.checked;
+    if (this.checked) {
+        typeSelect.value = '';
     }
 });
 </script>

@@ -14,7 +14,7 @@ public class FileStorageService {
             throw new IOException("File is empty");
         }
 
-        File uploadedFile = new File(System.getProperty("user.dir") + "/src/main/resources/static/images/" + file.getOriginalFilename());
+        File uploadedFile = new File(System.getProperty("user.dir") + "/src/main/resources/static.images/" + file.getOriginalFilename());
         file.transferTo(uploadedFile);
         return "/images/" + file.getOriginalFilename();
     }
